@@ -1,0 +1,44 @@
+<p-toast key="myKey1"></p-toast>
+
+<h1 class="products-h1">Products</h1>
+
+
+
+
+<div class="container  ">
+
+  <div class="product-index ">
+
+    <ul *ngFor="let product of products">
+
+      <a [routerLink]="['/products', product.id]" skipLocationChange><img class="border border-5 rounded "
+          [src]='product.url' /></a>
+      <li>{{product.name}}</li>
+
+
+      <li></li>
+
+
+
+      <div>
+
+        <div class="form-floating">
+          <select (change)="getProductAmount($event , product)" class="form-select">
+            <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]" [value]="number"> {{number}} </option>
+          </select>
+          <label for="floatingSelect">Quantity</label>
+        </div>
+      </div>
+
+
+
+
+      <div class="buttons">
+        <button class="btn btn-primary" (click)="addToCart(product )">Add to cart</button>
+        <button [routerLink]="['/products', product.id]" class="btn btn-outline-dark detail">Details</button>
+      </div>
+
+
+    </ul>
+
+  </div>

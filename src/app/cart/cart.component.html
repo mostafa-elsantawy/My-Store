@@ -1,0 +1,118 @@
+<p-toast key="myKey2"></p-toast>
+
+<h3>Cart</h3>
+
+
+
+
+
+<div class="row">
+  <div class="col">
+
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="items.length < 1" class="text-center">
+            <app-not-found [visible]="!items || items.length <=0" notFoundMessage="Cart is empty!"
+              resetLinkText="Go to products page"></app-not-found>
+          </tr>
+          <tr *ngFor="let item of items , let i=index">
+            <td>{{ i + 1 }}</td>
+            <td [routerLink]="['/products', item.id]">
+              <img [src]='item.url' class="img-thumbnail" alt="Cinque Terre" width="304" height="236">
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.price | currency }}</td>
+            <td>
+              <select [(ngModel)]="item.amount" class="form-select">
+
+                <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]" [value]="number"> {{number}} </option>
+
+              </select>
+            </td>
+            <td>
+              <button (click)="deleteItem(item)" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg"
+                  width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                  <path fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                </svg></button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col">
+
+    <div *ngIf="items && items.length>0" class="container  ">
+
+
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="form-group">
+          <label>Full name:</label>
+          <input class="form-control" type="text" name="name" placeholder="Enter your full name" ngModel
+            (ngModelChange)="handleNameChange($event)" #name="ngModel" required>
+          <p class="alert alert-danger" *ngIf="name.errors?.['required'] && name.touched ">
+            Name is required
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Address:</label>
+          <input class="form-control" id="formGroupExampleInput" id="address" type="text" name="address"
+            placeholder="Enter your address" ngModel (ngModelChange)="handleNameChange($event)" #address="ngModel"
+            required>
+          <p class="alert alert-danger" *ngIf="address.errors?.['required'] && address.touched ">
+            Address is required
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Credit card number:</label>
+          <input class="form-control" id="formGroupExampleInput" id="address" type="text" name="card" ngModel
+            (ngModelChange)="handleNameChange($event)" placeholder="(16-digit number)" #card="ngModel" required
+            minlength="16" maxlength="16" (keypress)="keyPressNumbers($event)">
+          <p class="alert alert-danger" *ngIf="card.errors?.['minlength'] && card.touched "> Credit card number should
+            be (16-digit number) </p>
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary" type="submit" value="Submit" [disabled]="form.invalid">Submit</button>
+      </form>
+
+
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="total">
+  <label for="">Total:</label>
+  <span> {{calcTotal() | currency}} </span>
+
+</div>

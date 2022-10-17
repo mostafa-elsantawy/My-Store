@@ -1,0 +1,12 @@
+.container{
+    text-align: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 200px;
+    font-size: 25px;
+}
+
+.confirmed{
+    color: green;
+    font-weight: 700;
+}
